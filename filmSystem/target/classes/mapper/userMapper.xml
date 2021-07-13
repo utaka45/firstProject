@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.userMapper">
+	<select id="getPass" parameterType="model.Pass" resultType="String">
+		select password from user_entry where user_id=#{user_id} and email=#{email}
+	</select>
+	<update id="updateUser" parameterType="model.User">
+		update user_entry set password=#{password}, phone=#{phone},
+				email=#{email}, birthday=#{birthday}
+		where user_id=#{user_id}
+	</update>
+
+	
+	<select id="getUserEntry" parameterType="String" resultType="model.User">
+		select * from user_entry where user_id = #{id}
+	</select>
+	
+	
+
+	<delete id="deleteCon" parameterType="Integer">
+		delete from confirm_info where confirm_id=#{id}
+	</delete>
+	
+	<insert id="putConfirm" parameterType="model.Confirm">
+		insert into confirm_info values(#{confirmId},#{locName},#{filmTitle},#{confirmDate},#{confrimTime},#{seat},#{userId}) 
+	</insert>
+	
+	<select id="getMaxConfirmId" resultType="Integer">
+		select max(confirm_id) from confirm_info
+	</select>
+	
+	<select id="getConfirmList" parameterType="String" resultType="model.Confirm">
+				select confirm_id as confirmId, loc_name as locName,
+				film_title as filmTitle, confirm_date as confirmDate, confirm_time as
+				confrimTime, seat, user_id as userId from confirm_info
+				where user_id=#{id}
+	</select>
+	
+	<insert id="putMember" parameterType="model.User">
+		insert into user_entry values(
+			#{user_id},#{password},
+			#{user_name}, #{phone},#{email},#{birthday}
+			)
+	</insert>
+	<select id="selectMember" parameterType="String" resultType="model.User">
+		select * from user_entry where user_id=#{user_id}
+	</select>
+	<select id="getIdCnt" resultType="Integer" parameterType="String">
+		select count(*) from user_entry where user_id = #{user_id}
+	</select>
+	<select id="getPassword" resultType="String"
+		parameterType="String">
+		select password from user_entry where user_id=#{user_id}
+	</select>
+	
+	<select id="getUser" parameterType="model.User" resultType="model.User">
+		select user_id, password, user_name,
+		phone, email, birthday
+		from user_entry
+		where user_id =#{user_id} and password=#{password}
+	</select>
+</mapper>

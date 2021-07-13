@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.filmMapper">
+	<select id="getSeatNum" resultType="model.Seat">
+		select seat from confirm_info
+	</select>
+
+	<select id="getBull" resultType="model.Bullentin" parameterType="Integer">
+	select seqno, title, id, bdate from
+		(select rownum rn, seqno, title, id, bdate from
+				(select * from bullentin order by seqno desc)
+		)
+	where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="getBullCount" resultType="Integer">
+		select count(*) from bullentin
+	</select>
+	
+	<select id="getBullRead" parameterType="Integer" resultType="model.Bullentin">
+		select * from bullentin where seqno =#{seqno}
+	</select>
+	
+	<insert id="putBullentin" parameterType="model.Bullentin">
+		insert into bullentin values(#{seqno},#{title},#{id},#{content},#{bdate})
+	</insert>
+	
+	<select id="getMaxBullentin" resultType="Integer">
+	 	select max(seqno) from bullentin
+	</select>
+	
+	
+	
+	<select id="getJoinFilm" parameterType="Integer" resultType="model.Join">
+		select f.film_title as filmTitle, f.film_id as filmId
+				from film_detail f
+				inner join film_schedule s on f.film_id =s. film_id
+				where s.loc_id=#{id}
+	</select>
+	
+	<select id="getLocList" resultType="model.Theater">
+		select loc_id as locId, loc_name as locName, loc_addr as locAddr
+		from theater
+	</select>
+	
+	<select id="getTheaterNo" resultType="Integer">
+		select max(loc_id) from theater
+	</select>
+
+	<insert id="putTheater" parameterType="model.Theater">
+		insert into theater values(#{locId},#{locName},#{locAddr}) 
+	</insert>
+
+	<select id="getMaxFilmid" resultType="Integer">
+		select max(film_id) from film_detail
+	</select>
+	
+	<select id="getFilm" parameterType="Integer" resultType="model.Film">
+		select film_id as filmId, release_date as releaseDate,
+		film_title as filmTitle, film_price as filmPrice, 
+		film_rating as filmRating, director,
+		film_description as filmDescription, film_poster as filmPoster,
+		genre
+		from film_detail where film_id = #{id}
+	</select>
+	
+	<insert id="putFilm" parameterType="model.Film">
+		insert into film_detail values(#{filmId},#{releaseDate},#{filmTitle},#{filmPrice},
+		#{filmRating},#{director},#{filmDescription},#{filmPoster},#{genre}) 
+	</insert>
+	
+	<select id="getFilmList" resultType="model.Film">
+		select film_id as filmId, release_date as releaseDate,
+		film_title as filmTitle, film_price as filmPrice, 
+		film_rating as filmRating, director,
+		film_description as filmDescription, film_poster as filmPoster,
+		genre
+		from film_detail
+	</select>
+</mapper>

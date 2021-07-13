@@ -1,0 +1,11 @@
+filmMenu.title=관리자 - 영화 등록 화면
+theaterMenu.title=관리자 - 영화관 등록 화면
+filmEditForm.film.filmId=영화번호
+filmEditForm.film.releaseDate=개봉일
+filmEditForm.film.filmTitle=영화이름
+filmEditForm.film.filmPrice=가격
+filmEditForm.film.filmRating=등급
+filmEditForm.film.director=감독
+filmEditForm.film.filmDescription=영화내용
+filmEditForm.film.filmPoster=파일명
+filmEditForm.film.genre=장르
